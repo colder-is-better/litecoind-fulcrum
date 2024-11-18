@@ -1,0 +1,27 @@
+name: litecoind-fulcrum
+
+services:
+
+  litecoind:
+    image: ghcr.io/sethforprivacy/litecoind:latest
+    restart: unless-stopped
+    container_name: litecoind
+    volumes:
+      - ${PWD}/litecoind:/litecoin/.litecoin
+      - ${PWD}/litecoin.conf:/litecoin/.litecoin/litecoin.conf
+    ports:
+      - 9333:9333
+      - 127.0.0.1:9332:9332
+
+  fulcrum:
+    container_name: fulcrum
+    image: cculianu/fulcrum:latest
+    restart: unless-stopped
+    command: >
+      Fulcrum --ssl 0.0.0.0:60002 --tcp 0.0.0.0:60001 --bitcoind litecoind:9332
+      --rpcuser ${RPC_USER} --rpcpassword ${RPC_PASSWORD} --utxo-cache ${UTXO_CACHE}
+    volumes:
+      - ${PWD}/fulcrum:/data
+    ports:
+      - 127.0.0.1:60001:60001
+      - 60002:60002
