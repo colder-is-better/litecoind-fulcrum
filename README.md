@@ -35,7 +35,7 @@ in this project we opted for bind mounts instead of named volumes, for this is a
 Clone this repository and change into the new local directory:
 
 ```bash
-git clone git@github.com:colder-is-better/litecoind-fulcrum.git && cd litecoind-fulcrum
+git clone https://github.com/colder-is-better/litecoind-fulcrum.git && cd litecoind-fulcrum
 ```
 
 Configure RPC authentication.
