@@ -1,36 +1,35 @@
 # Litecoin node with Fulcrum
 
 Run a Litecoin full node along with Fulcrum, using Docker Compose.
-In the following FAQ we explain why you might want this, what are the system requirements, and, most importantly, how to actually have it.
+In this FAQ, we explain why you might want this, what the system requirements are, and, most importantly, how to go about it.
 
 ## Why would I want this?
 
-In general, hosting your own node makes much more sense compared to using a remote one *not* controlled by you.
+In general, hosting your node makes much more sense compared to using a remote one *not* controlled by you.
 If anything, you do not have to trust other Litecoin nodes or Electrum servers, and, as a major bonus, you transact more privately.
 Also, syncing your wallets against *your* node is significantly faster, especially when the clients and the node are in the same local network -- or even when you are syncing over the clearnet.
 
 ## Why go the Docker route?
 
-Installing and updating Docker services is simple and easy.
-Such services can automatically start on boot and also restart automatically, e.g., in case of a non-major issue.
-Finally, the installation of Docker services is quite portable across different Linux distributions (and macOS).
+Installing and updating Docker containers is simple and easy.
+Such containers can automatically start on boot and also restart automatically, e.g., in case of a non-major issue.
+Finally, Docker containers are quite portable across different Linux distributions (and macOS).
 
 ## What about system requirements?
 
 - You need a Linux distribution or macOS.
   This whole setup has been successfully tested first on a Raspberry Pi 4 with Debian Bookworm, and then on a laptop with openSUSE Leap 15.6.
-- You need a system with at least 4GiB of RAM.
-  Our test Raspberry Pi had 4GiB of RAM, and our test laptop had 16GiB of RAM.
-- Regarding the disk type, you need at least an SSD -- an NVMe is much preferable.
-  Both our test systems had SSD drives.
-  At the time of this writing (November 2024) the Litecoin blockchain is about 207GiB, while the accompanying Fulcrum data directory consumes about 41GiB of disk space.
+- You need a system with at least 4 GiB of RAM.
+  Our test Raspberry Pi had 4 GiB of RAM, and our test laptop had 16 GiB of RAM.
+- Regarding the disk type, you need at least an SSD, though an NVMe is much preferable.
+  At the time of this writing (November 2024), the Litecoin blockchain is about 207 GiB, while the accompanying Fulcrum data directory consumes about 41 GiB of disk space.
 - The [Docker Engine must be installed](https://docs.docker.com/engine/install), along with the [Docker Compose plugin](https://docs.docker.com/compose/install).
   In case you are running openSUSE Leap, use this [wiki page](https://en.opensuse.org/Docker).
 
 ## How do I set everything up?
 
 Make sure you are in a disk partition with enough free space;
-in this project we opted for bind mounts instead of named volumes, for this is an easier setup in the common scenario of a Raspberry Pi that boots off of an SD card and has a (relatively) large SSD drive attached to it via USB.
+in this project, we opted for bind mounts instead of named volumes, for this is an easier setup in the common scenario of a Raspberry Pi that boots off of an SD card and has a (relatively) large SSD drive attached to it via USB.
 
 Clone this repository and change into the new local directory:
 
@@ -39,7 +38,7 @@ git clone https://github.com/colder-is-better/litecoind-fulcrum.git && cd liteco
 ```
 
 Configure RPC authentication.
-For that, use the `rpcauth.py` [script](https://github.com/litecoin-project/litecoin/blob/master/share/rpcauth/rpcauth.py), from the Litecoin source repository.
+For that, use the `rpcauth.py` [script](https://github.com/litecoin-project/litecoin/blob/master/share/rpcauth/rpcauth.py) from the Litecoin source repository.
 Download the script directly and make it executable, like so:
 
 ```bash
@@ -67,7 +66,7 @@ cp litecoin.conf.change_me litecoin.conf
 ```
 
 Using your favorite text editor, open `litecoin.conf`, delete the last line (`rpcauth=run_rpcauth.py_and_change_me`), and replace it with the string `rpcauth.py` gave you.
-In our example, `litecoin.conf` will be looking like this:
+In our example, `litecoin.conf` will look like this:
 
 ```bash
 # Accept JSON-RPC commands
@@ -92,7 +91,7 @@ rpcauth=litecoinrpc:90e3b15c2dfa8042b6434a2203282299$11b72c7fe2a215d2cab26f07469
 Save the changes to `litecoin.conf`, then open the `.env` file for editing.
 In there, replace the value of `RPC_USER` with the username you have already selected (e.g., `litecoinrpc`).
 Similarly, replace the value of `RPC_PASSWORD` with the password `rpcauth.py` generated (e.g., `dUJYPGmHFhlMENLYgbblvcXvTEioYQVBS4lnrQhx9MA=`).
-In our example, `.env` will be looking like this:
+In our example, `.env` will look like this:
 
 ```bash
 # litecoind RPC authentication
@@ -143,7 +142,7 @@ Similarly, to live-watch the logs of `Fulcrum` only, type:
 docker compose logs -f fulcrum
 ```
 
-## New containers are available -- how do I update?
+## New container images are available -- how do I update?
 
 Switch to the `litecoind-fulcrum` directory and type:
 
